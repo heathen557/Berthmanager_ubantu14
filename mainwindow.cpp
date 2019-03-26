@@ -1,3 +1,5 @@
+//2019-03-26 GitHub测试版
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include<iostream>
