@@ -80,6 +80,10 @@ private slots:
 
     void heartBeat_slot();
 
+    void on_addDetePoint_pushButton_clicked();
+
+    void on_selDetePoint_pushButton_clicked();
+
 private:
     QTableWidgetItem planeModel_Item[128];
     QTableWidgetItem wingLength_Item[128];
@@ -121,6 +125,8 @@ private:
     QUdpSocket udp_socket;
 
     QTimer heartBeat_timer;
+
+    QStringList DetectonPoints_List;
 
 signals:
     void xchange_signal(float);

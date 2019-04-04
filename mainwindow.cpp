@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->pushButton->setDisabled(true);
+    ui->selDetePoint_pushButton->setDisabled(true);
 
 //    ui->x_horizontalSlider->setValue(-100);
 //    ui->y_horizontalSlider->setValue(-100);
@@ -1096,24 +1097,40 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     {
         QByteArray sendArray = "{\"@table\":5,\"@src\":\"qt\"}";
         sendMsg(sendArray);
+        ui->selDetePoint_pushButton->setDisabled(true);
+        DetectonPoints_List.clear();
+        ui->showDetePoint_textEdit->clear();
 
     }else if(1 == index)  //查询检测参数
     {
         emit updateModel_signal(AllPlaneModel_list);
         QByteArray sendArray = "{\"@table\":8,\"@src\":\"qt\"}";
+        ui->selDetePoint_pushButton->setDisabled(true);
+        DetectonPoints_List.clear();
+        ui->showDetePoint_textEdit->clear();
         sendMsg(sendArray);
+
 
     }else if(2 == index)  //查询行人检测参数
     {
         QByteArray snedArray = "{\"@table\":11,\"@src\":\"qt\"}";
         sendMsg(snedArray);
+        DetectonPoints_List.clear();
+        ui->showDetePoint_textEdit->clear();
+        ui->selDetePoint_pushButton->setDisabled(true);
         qDebug()<<QString::fromLocal8Bit("查询行人检测参数已经发出！");
 
     }else if(3 == index)
     {
         QByteArray snedArray = "{\"@table\":13,\"@src\":\"qt\"}";
         sendMsg(snedArray);
+        ui->selDetePoint_pushButton->setDisabled(true);
+        DetectonPoints_List.clear();
+        ui->showDetePoint_textEdit->clear();
         qDebug()<<QString::fromLocal8Bit("查询环境检测参数已经发出！");
+    }else if(4 == index)  //检测区域界面
+    {
+        ui->selDetePoint_pushButton->setDisabled(false);
     }
 }
 
@@ -1349,4 +1366,52 @@ void MainWindow::heartBeat_slot()
     sendMsg(snedArray);
 
     qDebug()<<"heart beat signal has send ";
+}
+
+
+
+
+//add the detetion point
+void MainWindow::on_selDetePoint_pushButton_clicked()
+{
+    //在控件上显示添加的检测点
+    QString alreadyText = ui->showDetePoint_textEdit->toPlainText();
+    alreadyText.append("x:"+QString::number(currentSlider_x)+"   y:"+QString::number(currentSlider_y)+"\n");
+    ui->showDetePoint_textEdit->setText(alreadyText);
+
+    //序列添加检测点
+    DetectonPoints_List.append(QString::number(currentSlider_x));
+    DetectonPoints_List.append(QString::number(currentSlider_y));
+
+
+    QMessageBox::information(NULL,QString::fromLocal8Bit("提示"),QString::fromLocal8Bit("完成添加,请在右侧窗口查看已添加的检测点!"));
+}
+
+
+void MainWindow::on_addDetePoint_pushButton_clicked()
+{
+    QJsonObject alert_json;
+    QJsonArray msgArray;
+    if(DetectonPoints_List.length()<1)
+    {
+        QMessageBox::information(NULL,QString::fromLocal8Bit("提示"),QString::fromLocal8Bit("不能为空！请先添加检测点！"));
+        return ;
+    }
+
+    for(int i=0; i<DetectonPoints_List.length(); i += 2)
+    {
+        QJsonObject single_json;
+        single_json.insert("x",DetectonPoints_List[i]);
+        single_json.insert("y",DetectonPoints_List[i+1]);
+        msgArray.append(single_json);
+    }
+    alert_json.insert("@table",10);
+    alert_json.insert("@src","qt");
+    alert_json.insert("coordinates",msgArray);
+
+    QJsonDocument document;
+    document.setObject(alert_json);
+    QByteArray byteArray = document.toJson(QJsonDocument::Compact);
+    sendMsg(byteArray);
+    qDebug()<<" add the detetion msg = "<<byteArray<<endl;
 }

@@ -277,6 +277,13 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QPushButton" name="selDetePoint_pushButton">
+              <property name="text">
+               <string>添加检测点</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>
@@ -403,7 +410,7 @@
           <string notr="true"/>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>4</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -1168,6 +1175,49 @@
              </layout>
             </item>
            </layout>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="tab_5">
+          <attribute name="title">
+           <string>检测区域配置</string>
+          </attribute>
+          <widget class="QTextEdit" name="showDetePoint_textEdit">
+           <property name="geometry">
+            <rect>
+             <x>340</x>
+             <y>120</y>
+             <width>231</width>
+             <height>321</height>
+            </rect>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="addDetePoint_pushButton">
+           <property name="geometry">
+            <rect>
+             <x>390</x>
+             <y>460</y>
+             <width>121</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>添加检测区域</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_18">
+           <property name="geometry">
+            <rect>
+             <x>240</x>
+             <y>20</y>
+             <width>471</width>
+             <height>91</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>1、请在左侧点云显示区域设置检测点坐标，点击添加检测点按钮
+2、添加的检测点显示在下方，确认无误后，点击添加检测区域
+*******************请按照顺序添加检测点************************</string>
+           </property>
           </widget>
          </widget>
         </widget>

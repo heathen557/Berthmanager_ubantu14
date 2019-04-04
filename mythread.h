@@ -24,6 +24,7 @@ public:
 
      QString lidar_IP;
      QString lidar_port;
+
  
 protected:
     virtual void run();
