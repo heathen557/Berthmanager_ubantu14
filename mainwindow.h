@@ -84,6 +84,8 @@ private slots:
 
     void on_selDetePoint_pushButton_clicked();
 
+    void on_submitPara_pushButton_clicked();
+
 private:
     QTableWidgetItem planeModel_Item[128];
     QTableWidgetItem wingLength_Item[128];

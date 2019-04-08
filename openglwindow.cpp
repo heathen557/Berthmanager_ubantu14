@@ -155,7 +155,7 @@ void openglwindow::draw()
     {
         glVertex3f(min_x,max_y,floor_z);
         glVertex3f(max_x,max_y,floor_z);
-        qDebug()<<"this is the first coming "<<endl;
+//        qDebug()<<"this is the first coming "<<endl;
 
     }else
     {

@@ -480,6 +480,42 @@ void MainWindow::readMessage()
                         double height_distance_threshold = val_height_distance_threshold.toDouble();
                         ui->lineEdit_30->setText(QString::number(height_distance_threshold));
 
+                    }else if(16 == flag)   //detection area opeation is ok!
+                    {
+                        QMessageBox::information(NULL,NULL,QString::fromLocal8Bit("操作成功！"),NULL);
+                    }else if(18 == flag)  //场景参数set ok
+                    {
+                         QMessageBox::information(NULL,NULL,QString::fromLocal8Bit("操作成功！"),NULL);
+                    }else if(19 == flag)
+                    {
+                        QJsonValue fuselageDetect = object.value("fuselagedetect");
+                        int fuselageDetect_ = fuselageDetect.toInt();
+                        qDebug()<<"fuselageDetect_ =  "<<fuselageDetect_<<endl;
+
+                        if(0 == fuselageDetect_)
+                        {
+                            ui->radioButton_2->setChecked(true);
+                            ui->radioButton->setChecked(false);
+                        }else if(1 == fuselageDetect_)
+                        {
+                            ui->radioButton_2->setChecked(false);
+                            ui->radioButton->setChecked(true);
+                        }
+
+                        QJsonValue apronSecne = object.value("apronsecne");
+                        int apronSecne_ = apronSecne.toInt();
+
+                        qDebug()<<"the apronSecne_ ="<<apronSecne_<<endl;
+                        if(0 == apronSecne_)
+                        {
+                            ui->radioButton_4->setChecked(true);
+                            ui->radioButton_3->setChecked(false);
+                        }else if(1 == apronSecne_)
+                        {
+                            ui->radioButton_4->setChecked(false);
+                            ui->radioButton_3->setChecked(true);
+                        }
+
                     }
                 }
 
@@ -1131,6 +1167,10 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     }else if(4 == index)  //检测区域界面
     {
         ui->selDetePoint_pushButton->setDisabled(false);
+    }else if(5 == index)  // 查询场景参数
+    {
+        QByteArray snedArray = "{\"@table\":19,\"@src\":\"qt\"}";
+        sendMsg(snedArray);
     }
 }
 
@@ -1414,4 +1454,33 @@ void MainWindow::on_addDetePoint_pushButton_clicked()
     QByteArray byteArray = document.toJson(QJsonDocument::Compact);
     sendMsg(byteArray);
     qDebug()<<" add the detetion msg = "<<byteArray<<endl;
+}
+
+
+//submit the scence parameter slot
+void MainWindow::on_submitPara_pushButton_clicked()
+{
+
+    QByteArray sendArray = "{\"@table\":18,\"@src\":\"qt\",";
+
+    if(true == ui->radioButton->isChecked())
+    {
+        sendArray.append("\"fuselagedetect\":1,");
+
+    }else
+    {
+        sendArray.append("\"fuselagedetect\":0,");
+    }
+
+    if(true == ui->radioButton_3->isChecked())
+    {
+        sendArray.append("\"apronsecne\":1}");
+    }else
+    {
+        sendArray.append("\"apronsecne\":0}");
+    }
+
+    qDebug()<<"the msg ="<<sendArray<<endl;
+    sendMsg(sendArray);
+
 }
