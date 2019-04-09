@@ -488,6 +488,11 @@ void MainWindow::readMessage()
                          QMessageBox::information(NULL,NULL,QString::fromLocal8Bit("操作成功！"),NULL);
                     }else if(19 == flag)
                     {
+                        if(!object.contains("apronsecne") || !object.contains("fuselagedetect"))
+                        {
+                            QMessageBox::information(NULL,QString::fromLocal8Bit("警告"),QString::fromLocal8Bit("接受的字段有误，珂珂检查之"));
+                        }
+
                         QJsonValue fuselageDetect = object.value("fuselagedetect");
                         int fuselageDetect_ = fuselageDetect.toInt();
                         qDebug()<<"fuselageDetect_ =  "<<fuselageDetect_<<endl;
@@ -502,15 +507,16 @@ void MainWindow::readMessage()
                             ui->radioButton->setChecked(true);
                         }
 
-                        QJsonValue apronSecne = object.value("apronsecne");
-                        int apronSecne_ = apronSecne.toInt();
 
-                        qDebug()<<"the apronSecne_ ="<<apronSecne_<<endl;
-                        if(0 == apronSecne_)
+                        QJsonValue apronSecne = object.value("apronscene");
+                        int apronScene_ = apronSecne.toInt();
+
+                        qDebug()<<"the apronScene_ ="<<apronScene_<<endl;
+                        if(0 == apronScene_)
                         {
                             ui->radioButton_4->setChecked(true);
                             ui->radioButton_3->setChecked(false);
-                        }else if(1 == apronSecne_)
+                        }else if(1 == apronScene_)
                         {
                             ui->radioButton_4->setChecked(false);
                             ui->radioButton_3->setChecked(true);
