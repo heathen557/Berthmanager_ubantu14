@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
     Detection_Alertflag = false;      //同上
     click_flag = true;                //初始化允许点击
 
+    currentDetePoints_index = 0;          //curent tableWidgetItem show
+
 //    this->showMaximized();
 
     connect(this,SIGNAL(xchange_signal(float)),ui->widget,SLOT(xchange_slot(float)));
@@ -132,6 +134,24 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->tableWidget_2->hideRow(i);
 
     }
+
+
+    //add the detec point tableWidget
+    ui->DetePoint_tableWidget->setRowCount(50);
+    ui->DetePoint_tableWidget->setColumnWidth(1,200);
+
+    for(int i=0; i<50; i++)
+    {
+        index_Item[i].setTextAlignment(Qt::AlignCenter);
+        DetecPoint_Item[i].setTextAlignment(Qt::AlignCenter);
+        index_Item[i].setFlags(Qt::NoItemFlags);
+        index_Item[i].setText(QString::number(i+1));
+
+
+        ui->DetePoint_tableWidget->setItem(i,0,&index_Item[i]);
+        ui->DetePoint_tableWidget->setItem(i,1,&DetecPoint_Item[i]);
+    }
+
 
 
 
@@ -488,9 +508,10 @@ void MainWindow::readMessage()
                          QMessageBox::information(NULL,NULL,QString::fromLocal8Bit("操作成功！"),NULL);
                     }else if(19 == flag)
                     {
-                        if(!object.contains("apronsecne") || !object.contains("fuselagedetect"))
+                        if(!object.contains("apronscene") || !object.contains("fuselagedetect"))
                         {
                             QMessageBox::information(NULL,QString::fromLocal8Bit("警告"),QString::fromLocal8Bit("接受的字段有误，珂珂检查之"));
+                            break;
                         }
 
                         QJsonValue fuselageDetect = object.value("fuselagedetect");
@@ -1417,7 +1438,11 @@ void MainWindow::heartBeat_slot()
 
 
 
-//add the detetion point
+/*
+ * @brief:  add the detec point
+ * @date:  2019-4-10
+ * @author:zwt
+ */
 void MainWindow::on_selDetePoint_pushButton_clicked()
 {
     //在控件上显示添加的检测点
@@ -1425,12 +1450,38 @@ void MainWindow::on_selDetePoint_pushButton_clicked()
     alreadyText.append("x:"+QString::number(currentSlider_x)+"   y:"+QString::number(currentSlider_y)+"\n");
     ui->showDetePoint_textEdit->setText(alreadyText);
 
+    QString currentText = "("+QString::number(currentSlider_x) +" , "+ QString::number(currentSlider_y) +")";
+    qDebug()<<"currentText ="<<currentText<<endl;
+    DetecPoint_Item[currentDetePoints_index].setText(currentText);
+    currentDetePoints_index++;
+
     //序列添加检测点
     DetectonPoints_List.append(QString::number(currentSlider_x));
     DetectonPoints_List.append(QString::number(currentSlider_y));
 
-
     QMessageBox::information(NULL,QString::fromLocal8Bit("提示"),QString::fromLocal8Bit("完成添加,请在右侧窗口查看已添加的检测点!"));
+}
+
+
+/*
+ * @brief:  alter the detec point
+ * @date:  2019-4-10
+ * @author:zwt
+ */
+void MainWindow::on_DetePoint_tableWidget_cellDoubleClicked(int row, int column)
+{
+
+}
+
+
+/*
+ * @brief:  show the detec point on openGL
+ * @date:  2019-4-10
+ * @author:zwt
+ */
+void MainWindow::on_showDetecPoint_pushButton_clicked()
+{
+
 }
 
 
@@ -1463,6 +1514,10 @@ void MainWindow::on_addDetePoint_pushButton_clicked()
 }
 
 
+
+
+
+
 //submit the scence parameter slot
 void MainWindow::on_submitPara_pushButton_clicked()
 {
@@ -1490,3 +1545,7 @@ void MainWindow::on_submitPara_pushButton_clicked()
     sendMsg(sendArray);
 
 }
+
+
+
+

@@ -86,6 +86,10 @@ private slots:
 
     void on_submitPara_pushButton_clicked();
 
+    void on_DetePoint_tableWidget_cellDoubleClicked(int row, int column);
+
+    void on_showDetecPoint_pushButton_clicked();
+
 private:
     QTableWidgetItem planeModel_Item[128];
     QTableWidgetItem wingLength_Item[128];
@@ -103,6 +107,9 @@ private:
     QTableWidgetItem center1_y_Item[128];
     QTableWidgetItem center2_x_Item[128];
     QTableWidgetItem center2_y_Item[128];
+
+    QTableWidgetItem index_Item[50];           //检测区域时 标识
+    QTableWidgetItem DetecPoint_Item[50];      //检测区域时 检测点坐标
 
 
     QTcpSocket tcpClient;
@@ -129,6 +136,8 @@ private:
     QTimer heartBeat_timer;
 
     QStringList DetectonPoints_List;
+
+    int currentDetePoints_index;
 
 signals:
     void xchange_signal(float);

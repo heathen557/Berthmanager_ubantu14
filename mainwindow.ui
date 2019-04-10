@@ -410,7 +410,7 @@
           <string notr="true"/>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>4</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -1184,18 +1184,18 @@
           <widget class="QTextEdit" name="showDetePoint_textEdit">
            <property name="geometry">
             <rect>
-             <x>340</x>
-             <y>120</y>
-             <width>231</width>
-             <height>321</height>
+             <x>760</x>
+             <y>110</y>
+             <width>161</width>
+             <height>361</height>
             </rect>
            </property>
           </widget>
           <widget class="QPushButton" name="addDetePoint_pushButton">
            <property name="geometry">
             <rect>
-             <x>390</x>
-             <y>460</y>
+             <x>460</x>
+             <y>480</y>
              <width>121</width>
              <height>25</height>
             </rect>
@@ -1217,6 +1217,39 @@
             <string>1、请在左侧点云显示区域设置检测点坐标，点击添加检测点按钮
 2、添加的检测点显示在下方，确认无误后，点击添加检测区域
 *******************请按照顺序添加检测点************************</string>
+           </property>
+          </widget>
+          <widget class="QTableWidget" name="DetePoint_tableWidget">
+           <property name="geometry">
+            <rect>
+             <x>255</x>
+             <y>140</y>
+             <width>381</width>
+             <height>321</height>
+            </rect>
+           </property>
+           <column>
+            <property name="text">
+             <string>检测点序号</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>检测点坐标(x,y)</string>
+            </property>
+           </column>
+          </widget>
+          <widget class="QPushButton" name="showDetecPoint_pushButton">
+           <property name="geometry">
+            <rect>
+             <x>280</x>
+             <y>480</y>
+             <width>141</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>查看检测区域</string>
            </property>
           </widget>
          </widget>
