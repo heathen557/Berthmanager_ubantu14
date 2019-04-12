@@ -1181,16 +1181,6 @@
           <attribute name="title">
            <string>检测区域配置</string>
           </attribute>
-          <widget class="QTextEdit" name="showDetePoint_textEdit">
-           <property name="geometry">
-            <rect>
-             <x>760</x>
-             <y>110</y>
-             <width>161</width>
-             <height>361</height>
-            </rect>
-           </property>
-          </widget>
           <widget class="QPushButton" name="addDetePoint_pushButton">
            <property name="geometry">
             <rect>
@@ -1222,9 +1212,9 @@
           <widget class="QTableWidget" name="DetePoint_tableWidget">
            <property name="geometry">
             <rect>
-             <x>255</x>
+             <x>270</x>
              <y>140</y>
-             <width>381</width>
+             <width>341</width>
              <height>321</height>
             </rect>
            </property>

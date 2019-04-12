@@ -18,6 +18,9 @@ extern CloudPtr _src_cloud;
 openglwindow::openglwindow(QWidget *parent)
     :QOpenGLWidget(parent)
 {
+
+    showDetectionPoints_list.clear();
+    isShowPolygon_flag = false;
 //    rotationX = -21.0;
 //    rotationY = -57.0;
 //    rotationZ = -0.0;
@@ -117,10 +120,11 @@ void openglwindow::draw()
 //    pcl::io::loadPCDFile("0001.pcd", *cloud);
 
 
-
+// draw the pcl file  points
     for(size_t i=0; i<_src_cloud->points.size(); i++)
     {
         glLoadName(i);
+        glPointSize(1.0);
         glBegin(GL_POINTS);
 
         float cloud_x = _src_cloud->points[i].x;
@@ -142,10 +146,6 @@ void openglwindow::draw()
             floor_z = cloud_z;
         glEnd();
     }
-
-
-
-
     emit sliderRangechange_signal(min_x,max_x,min_y,max_y);
 
 ////////////////////draw the x_slider////////////////////////
@@ -187,6 +187,46 @@ void openglwindow::draw()
         glVertex3f(x_change,max_y,floor_z);
     }
     glEnd();
+
+
+
+///////////////draw the Detection points//////////////////////////
+
+    glPointSize(5.0);
+    glBegin(GL_POINTS);
+    glColor3f(0,1.0,0);
+
+    for(int i=0; i<showDetectionPoints_list.size(); i=i+2)
+    {
+        QString detecPoint_x_str = showDetectionPoints_list[i];
+        QString detecPoint_y_str = showDetectionPoints_list[i+1];
+        float detecPoint_x = detecPoint_x_str.toFloat();
+        float detecPoint_y = detecPoint_y_str.toFloat();
+
+        glVertex3f(detecPoint_x,detecPoint_y,floor_z);
+    }
+    glEnd();
+
+
+    /////////////draw the detection points polygon/////////////////////
+    if(true == isShowPolygon_flag)
+    {
+       glBegin(GL_LINE_LOOP);
+       glColor3f(0,1.0,0);
+       for(int i=0; i<showDetectionPoints_list.size(); i+=2)
+       {
+           QString detecPoint_x_str = showDetectionPoints_list[i];
+           QString detecPoint_y_str = showDetectionPoints_list[i+1];
+           float detecPoint_x = detecPoint_x_str.toFloat();
+           float detecPoint_y = detecPoint_y_str.toFloat();
+           glVertex3f(detecPoint_x,detecPoint_y,floor_z);
+       }
+       glEnd();
+
+    }
+
+
+
 
 //    std::cerr << "max_x:"<< max_x<<"  min_x:"<<min_x<<"  max_y:"<<max_y<<"  min_y:"<<min_y<<"  floor_z:"<<floor_z<<std::endl;
 

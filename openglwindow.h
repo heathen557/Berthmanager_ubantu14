@@ -50,6 +50,10 @@ public:
 
     MyThread readFile_thread;
 
+    QStringList showDetectionPoints_list;
+
+    bool isShowPolygon_flag;
+
 public slots:
     void xchange_slot(float );
     void ychange_slot(float );

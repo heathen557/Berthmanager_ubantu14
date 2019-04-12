@@ -150,6 +150,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
         ui->DetePoint_tableWidget->setItem(i,0,&index_Item[i]);
         ui->DetePoint_tableWidget->setItem(i,1,&DetecPoint_Item[i]);
+        ui->DetePoint_tableWidget->hideRow(i);
+
     }
 
 
@@ -503,7 +505,57 @@ void MainWindow::readMessage()
                     }else if(16 == flag)   //detection area opeation is ok!
                     {
                         QMessageBox::information(NULL,NULL,QString::fromLocal8Bit("操作成功！"),NULL);
-                    }else if(18 == flag)  //场景参数set ok
+                    }else if(17 == flag)   //rece the msg of detection area
+                    {
+                        QJsonValue value_msg = object.value("coordinates");
+                        if(value_msg.isArray())
+                        {
+
+                            QJsonArray msgArr = value_msg.toArray();
+                            int size_ = msgArr.size();
+                            DetectonPoints_List.clear();
+                            currentDetePoints_index = 0;
+
+                            for(int i=0; i<msgArr.size(); i++)
+                            {
+                                QJsonObject coordinate_xy =  msgArr[i].toObject();
+                                if (coordinate_xy.contains("x") && coordinate_xy.contains("y"))
+                                {
+                                    QJsonValue coordinate_str_x = coordinate_xy.value("x");                         // 获取指定 key 对应的 value
+                                    double coordinate_x = coordinate_str_x.toString().toDouble();
+//                                    double coordinate_x = coordinate_str_x.toDouble();
+
+                                    QJsonValue coordinate_str_y = coordinate_xy.value("y");                         // 获取指定 key 对应的 value
+                                    double coordinate_y = coordinate_str_y.toString().toDouble();
+//                                    double coordinate_y = coordinate_str_y.toDouble();
+
+
+                                   //序列添加检测点
+                                    DetectonPoints_List.append(QString::number(coordinate_x));
+                                    DetectonPoints_List.append(QString::number(coordinate_y));
+
+                                    //
+                                    //在控件上显示添加的检测点
+                                    QString currentText = "("+QString::number(coordinate_x) +" , "+ QString::number(coordinate_y) +")";
+                                    qDebug()<<"currentText ="<<currentText<<endl;
+                                    DetecPoint_Item[currentDetePoints_index].setText(currentText);
+                                    ui->DetePoint_tableWidget->showRow(currentDetePoints_index);
+                                    currentDetePoints_index++;
+
+                                    //show the detection points on openGL
+                                    ui->widget->showDetectionPoints_list = DetectonPoints_List;
+
+                                }else
+                                {
+                                    qDebug()<<QString::fromLocal8Bit("查询检测区域，收到的检测参数字段存在错误！！")<<endl;
+                                }
+
+                            }
+
+                        }
+
+                    }
+                    else if(18 == flag)  //场景参数set ok
                     {
                          QMessageBox::information(NULL,NULL,QString::fromLocal8Bit("操作成功！"),NULL);
                     }else if(19 == flag)
@@ -1162,7 +1214,18 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         sendMsg(sendArray);
         ui->selDetePoint_pushButton->setDisabled(true);
         DetectonPoints_List.clear();
-        ui->showDetePoint_textEdit->clear();
+
+        //clear the QStringList ; currentDetePoints_index; tableWidgetItem
+        currentDetePoints_index = 0;
+        DetectonPoints_List.clear();
+        for(int i=0; i<50; i++)
+        {
+           DetecPoint_Item[i].setText("");
+           ui->DetePoint_tableWidget->hideRow(i);
+        }
+
+        ui->widget->showDetectionPoints_list.clear();
+        ui->widget->isShowPolygon_flag = false;
 
     }else if(1 == index)  //查询检测参数
     {
@@ -1170,8 +1233,18 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         QByteArray sendArray = "{\"@table\":8,\"@src\":\"qt\"}";
         ui->selDetePoint_pushButton->setDisabled(true);
         DetectonPoints_List.clear();
-        ui->showDetePoint_textEdit->clear();
         sendMsg(sendArray);
+
+        //clear the QStringList ; currentDetePoints_index; tableWidgetItem
+        currentDetePoints_index = 0;
+        DetectonPoints_List.clear();
+        for(int i=0; i<50; i++)
+        {
+           DetecPoint_Item[i].setText("");
+           ui->DetePoint_tableWidget->hideRow(i);
+        }
+        ui->widget->showDetectionPoints_list.clear();
+        ui->widget->isShowPolygon_flag = false;
 
 
     }else if(2 == index)  //查询行人检测参数
@@ -1179,9 +1252,19 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         QByteArray snedArray = "{\"@table\":11,\"@src\":\"qt\"}";
         sendMsg(snedArray);
         DetectonPoints_List.clear();
-        ui->showDetePoint_textEdit->clear();
         ui->selDetePoint_pushButton->setDisabled(true);
         qDebug()<<QString::fromLocal8Bit("查询行人检测参数已经发出！");
+
+        //clear the QStringList ; currentDetePoints_index; tableWidgetItem
+        currentDetePoints_index = 0;
+        DetectonPoints_List.clear();
+        for(int i=0; i<50; i++)
+        {
+           DetecPoint_Item[i].setText("");
+           ui->DetePoint_tableWidget->hideRow(i);
+        }
+        ui->widget->showDetectionPoints_list.clear();
+        ui->widget->isShowPolygon_flag = false;
 
     }else if(3 == index)
     {
@@ -1189,15 +1272,40 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         sendMsg(snedArray);
         ui->selDetePoint_pushButton->setDisabled(true);
         DetectonPoints_List.clear();
-        ui->showDetePoint_textEdit->clear();
         qDebug()<<QString::fromLocal8Bit("查询环境检测参数已经发出！");
+
+        //clear the QStringList ; currentDetePoints_index; tableWidgetItem
+        currentDetePoints_index = 0;
+        DetectonPoints_List.clear();
+        for(int i=0; i<50; i++)
+        {
+           DetecPoint_Item[i].setText("");
+           ui->DetePoint_tableWidget->hideRow(i);
+        }
+        ui->widget->showDetectionPoints_list.clear();
+        ui->widget->isShowPolygon_flag = false;
+
     }else if(4 == index)  //检测区域界面
     {
         ui->selDetePoint_pushButton->setDisabled(false);
+        QByteArray snedArray = "{\"@table\":17,\"@src\":\"qt\"}";
+        sendMsg(snedArray);
+
     }else if(5 == index)  // 查询场景参数
     {
         QByteArray snedArray = "{\"@table\":19,\"@src\":\"qt\"}";
         sendMsg(snedArray);
+
+        //clear the QStringList ; currentDetePoints_index; tableWidgetItem
+        currentDetePoints_index = 0;
+        DetectonPoints_List.clear();
+        for(int i=0; i<50; i++)
+        {
+           DetecPoint_Item[i].setText("");
+           ui->DetePoint_tableWidget->hideRow(i);
+        }
+        ui->widget->showDetectionPoints_list.clear();
+        ui->widget->isShowPolygon_flag = false;
     }
 }
 
@@ -1446,20 +1554,22 @@ void MainWindow::heartBeat_slot()
 void MainWindow::on_selDetePoint_pushButton_clicked()
 {
     //在控件上显示添加的检测点
-    QString alreadyText = ui->showDetePoint_textEdit->toPlainText();
-    alreadyText.append("x:"+QString::number(currentSlider_x)+"   y:"+QString::number(currentSlider_y)+"\n");
-    ui->showDetePoint_textEdit->setText(alreadyText);
-
     QString currentText = "("+QString::number(currentSlider_x) +" , "+ QString::number(currentSlider_y) +")";
     qDebug()<<"currentText ="<<currentText<<endl;
     DetecPoint_Item[currentDetePoints_index].setText(currentText);
+    ui->DetePoint_tableWidget->showRow(currentDetePoints_index);
     currentDetePoints_index++;
 
     //序列添加检测点
     DetectonPoints_List.append(QString::number(currentSlider_x));
     DetectonPoints_List.append(QString::number(currentSlider_y));
 
-    QMessageBox::information(NULL,QString::fromLocal8Bit("提示"),QString::fromLocal8Bit("完成添加,请在右侧窗口查看已添加的检测点!"));
+
+
+    //show the detection points on openGL
+    ui->widget->showDetectionPoints_list = DetectonPoints_List;
+//    qDebug()<<" the list  = "<<ui->widget->showDetectionPoints_list;
+
 }
 
 
@@ -1470,7 +1580,23 @@ void MainWindow::on_selDetePoint_pushButton_clicked()
  */
 void MainWindow::on_DetePoint_tableWidget_cellDoubleClicked(int row, int column)
 {
+//    QMessageBox::information(NULL,QString::fromLocal8Bit("提示"),QString::fromLocal8Bit("左侧设置检测点 可完成修改操作！"));
 
+    QString coordinate_str =  "(" +QString::number(currentSlider_x)+" , "+QString::number(currentSlider_y)+")";
+    QString warnMsg = QString::fromLocal8Bit("确定将检测点坐标修改为：") + coordinate_str+"?";
+    QMessageBox message(QMessageBox::Warning,QString::fromLocal8Bit("提示"),warnMsg,QMessageBox::Yes|QMessageBox::No,NULL);
+    if (message.exec()==QMessageBox::Yes)
+    {
+        qDebug()<<"clicked yes and row ="<<row;
+        DetecPoint_Item[row].setText(coordinate_str);
+        DetectonPoints_List.replace(row*2,QString::number(currentSlider_x));
+        DetectonPoints_List.replace(row*2+1,QString::number(currentSlider_y));
+        ui->widget->showDetectionPoints_list = DetectonPoints_List;
+    }
+    else
+    {
+        qDebug()<<"clicked no\n";
+    }
 }
 
 
@@ -1481,7 +1607,7 @@ void MainWindow::on_DetePoint_tableWidget_cellDoubleClicked(int row, int column)
  */
 void MainWindow::on_showDetecPoint_pushButton_clicked()
 {
-
+    ui->widget->isShowPolygon_flag = true;
 }
 
 
@@ -1511,6 +1637,8 @@ void MainWindow::on_addDetePoint_pushButton_clicked()
     QByteArray byteArray = document.toJson(QJsonDocument::Compact);
     sendMsg(byteArray);
     qDebug()<<" add the detetion msg = "<<byteArray<<endl;
+
+
 }
 
 
