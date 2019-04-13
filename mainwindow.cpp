@@ -502,10 +502,10 @@ void MainWindow::readMessage()
                         double height_distance_threshold = val_height_distance_threshold.toDouble();
                         ui->lineEdit_30->setText(QString::number(height_distance_threshold));
 
-                    }else if(16 == flag)   //detection area opeation is ok!
+                    }else if(21 == flag)   //detection area opeation is ok!
                     {
                         QMessageBox::information(NULL,NULL,QString::fromLocal8Bit("操作成功！"),NULL);
-                    }else if(17 == flag)   //rece the msg of detection area
+                    }else if(20 == flag)   //rece the msg of detection area
                     {
                         QJsonValue value_msg = object.value("coordinates");
                         if(value_msg.isArray())
@@ -555,10 +555,10 @@ void MainWindow::readMessage()
                         }
 
                     }
-                    else if(18 == flag)  //场景参数set ok
+                    else if(19 == flag)  //场景参数set ok
                     {
                          QMessageBox::information(NULL,NULL,QString::fromLocal8Bit("操作成功！"),NULL);
-                    }else if(19 == flag)
+                    }else if(18 == flag)  //接收场景参数
                     {
                         if(!object.contains("apronscene") || !object.contains("fuselagedetect"))
                         {
@@ -1288,12 +1288,12 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     }else if(4 == index)  //检测区域界面
     {
         ui->selDetePoint_pushButton->setDisabled(false);
-        QByteArray snedArray = "{\"@table\":17,\"@src\":\"qt\"}";
+        QByteArray snedArray = "{\"@table\":20,\"@src\":\"qt\"}";
         sendMsg(snedArray);
 
     }else if(5 == index)  // 查询场景参数
     {
-        QByteArray snedArray = "{\"@table\":19,\"@src\":\"qt\"}";
+        QByteArray snedArray = "{\"@table\":18,\"@src\":\"qt\"}";
         sendMsg(snedArray);
 
         //clear the QStringList ; currentDetePoints_index; tableWidgetItem
@@ -1628,7 +1628,7 @@ void MainWindow::on_addDetePoint_pushButton_clicked()
         single_json.insert("y",DetectonPoints_List[i+1]);
         msgArray.append(single_json);
     }
-    alert_json.insert("@table",10);
+    alert_json.insert("@table",21);
     alert_json.insert("@src","qt");
     alert_json.insert("coordinates",msgArray);
 
@@ -1650,7 +1650,7 @@ void MainWindow::on_addDetePoint_pushButton_clicked()
 void MainWindow::on_submitPara_pushButton_clicked()
 {
 
-    QByteArray sendArray = "{\"@table\":18,\"@src\":\"qt\",";
+    QByteArray sendArray = "{\"@table\":19,\"@src\":\"qt\",";
 
     if(true == ui->radioButton->isChecked())
     {
