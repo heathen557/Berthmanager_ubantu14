@@ -58,7 +58,7 @@ private slots:
 
     void on_linkServer_pushButton_clicked();
 
-    void addPlaneModel_slot(QString,float,float,float,float,float);
+    void addPlaneModel_slot(QStringList paraList);
 
     void addDetetion_slot(QString);
 
@@ -90,13 +90,51 @@ private slots:
 
     void on_showDetecPoint_pushButton_clicked();
 
+    void on_DetePoint_tableWidget_cellClicked(int row, int column);
+
 private:
+    /************************************************/
     QTableWidgetItem planeModel_Item[128];
-    QTableWidgetItem wingLength_Item[128];
+    QTableWidgetItem wingLength1_Item[128];
+    QTableWidgetItem wingLength2_Item[128];
+    QTableWidgetItem wingLengthAdjust_Item[128];
+    QTableWidgetItem wingLengthPosOffset_Item[128];
+    QTableWidgetItem wingLengthNegOffset_Item[128];
+
     QTableWidgetItem engineInner_Item[128];
+    QTableWidgetItem engineInnerAdjust_Item[128];
+    QTableWidgetItem engineInnerPosOffset_Item[128];
+    QTableWidgetItem engineInnerNegOffset_Item[128];
+
     QTableWidgetItem engineOuter_Item[128];
+    QTableWidgetItem engineOuterAdjust_Item[128];
+    QTableWidgetItem engineOuterPosOffset_Item[128];
+    QTableWidgetItem engineOuterNegOffset_Item[128];
+
     QTableWidgetItem planeLength_Item[128];
+    QTableWidgetItem planeLengthAdjust_Item[128];
+    QTableWidgetItem planeLengthPosOffset_Item[128];
+    QTableWidgetItem planeLengthNegOffset_Item[128];
+
+    QTableWidgetItem planeHeight_Item[128];
+    QTableWidgetItem planeHeightPosOffset_Item[128];
+    QTableWidgetItem planeHeightNegOffset_Item[128];
+
+    QTableWidgetItem planeWidth_Item[128];
+    QTableWidgetItem planeWidthPosOffset_Item[128];
+    QTableWidgetItem planeWidthNegOffset_Item[128];
+
     QTableWidgetItem noseHeight_Item[128];
+    QTableWidgetItem noseHeightPosOffset_Item[128];
+    QTableWidgetItem noseHeightNegOffset_Item[128];
+
+    QTableWidgetItem noseDoor_Item[128];
+    QTableWidgetItem noseDoorPosOffset_Item[128];
+    QTableWidgetItem noseDoorNegOffset_Item[128];
+
+
+    /*********************************************************/
+
 
     QTableWidgetItem planeModel_Item2[128];
     QTableWidgetItem stop1_x_Item[128];

@@ -64,7 +64,7 @@ void MyThread::run()
     int i=0;
     while (1) {
         i++;
-        QString fileName = "airCraft_pcd/"+QString::number(i)+".pcd";
+        QString fileName = "12-25/"+QString::number(i)+".pcd";
         pcl::PointCloud<pcl::PointXYZI>::Ptr cloud_per(new pcl::PointCloud <pcl::PointXYZI>);
         if(-1 == pcl::io::loadPCDFile(fileName.toStdString(),*cloud_per))
         {
@@ -77,7 +77,7 @@ void MyThread::run()
         _src_cloud->points[i].z = cloud_per->points[i].z;
         _src_cloud->points[i].intensity = cloud_per->points[i].intensity;
 
-        usleep(10000);
+        usleep(1000);
     }
 
 

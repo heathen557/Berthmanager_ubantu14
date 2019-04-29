@@ -20,7 +20,7 @@ private:
     Ui::add_model *ui;
 
 signals:
-    void addPlane_signal(QString,float,float,float,float,float);
+    void addPlane_signal(QStringList);
 
     void cancel_signal();
 

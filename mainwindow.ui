@@ -410,7 +410,7 @@
           <string notr="true"/>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -426,32 +426,210 @@
              </column>
              <column>
               <property name="text">
-               <string>翼展长度</string>
+               <string>翼展长度1</string>
+              </property>
+              <property name="background">
+               <color>
+                <red>114</red>
+                <green>159</green>
+                <blue>207</blue>
+               </color>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>翼展长度2</string>
+              </property>
+              <property name="background">
+               <color>
+                <red>114</red>
+                <green>159</green>
+                <blue>207</blue>
+               </color>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>校正值</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>正偏离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>负偏离</string>
               </property>
              </column>
              <column>
               <property name="text">
                <string>引擎内间距</string>
               </property>
+              <property name="background">
+               <color>
+                <red>114</red>
+                <green>159</green>
+                <blue>207</blue>
+               </color>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>校正值</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>正偏离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>负偏离</string>
+              </property>
              </column>
              <column>
               <property name="text">
                <string>引擎外间距</string>
+              </property>
+              <property name="background">
+               <color>
+                <red>114</red>
+                <green>159</green>
+                <blue>207</blue>
+               </color>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>校正值</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>正偏离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>负偏离</string>
               </property>
              </column>
              <column>
               <property name="text">
                <string>机身长度</string>
               </property>
+              <property name="background">
+               <color>
+                <red>114</red>
+                <green>159</green>
+                <blue>207</blue>
+               </color>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>校正值</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>正偏离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>负偏离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>机身高度</string>
+              </property>
+              <property name="background">
+               <color>
+                <red>114</red>
+                <green>159</green>
+                <blue>207</blue>
+               </color>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>正偏离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>负偏离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>机身宽度</string>
+              </property>
+              <property name="background">
+               <color>
+                <red>114</red>
+                <green>159</green>
+                <blue>207</blue>
+               </color>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>正偏离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>负偏离</string>
+              </property>
              </column>
              <column>
               <property name="text">
                <string>机鼻高度</string>
               </property>
+              <property name="background">
+               <color>
+                <red>114</red>
+                <green>159</green>
+                <blue>207</blue>
+               </color>
+              </property>
              </column>
              <column>
               <property name="text">
-               <string>鼻轮高度</string>
+               <string>正偏离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>负偏离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>机鼻到舱门距离</string>
+              </property>
+              <property name="background">
+               <color>
+                <red>114</red>
+                <green>159</green>
+                <blue>207</blue>
+               </color>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>正偏离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>负偏离</string>
               </property>
              </column>
             </widget>

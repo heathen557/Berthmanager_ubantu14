@@ -54,6 +54,11 @@ public:
 
     bool isShowPolygon_flag;
 
+    float singleSelPoint_x;  //danxuan zhong de dian
+    float singleSelPoint_y;
+
+    bool isShowDiff_flag;
+
 public slots:
     void xchange_slot(float );
     void ychange_slot(float );

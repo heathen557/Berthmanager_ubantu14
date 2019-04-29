@@ -21,6 +21,7 @@ openglwindow::openglwindow(QWidget *parent)
 
     showDetectionPoints_list.clear();
     isShowPolygon_flag = false;
+    isShowDiff_flag = false;
 //    rotationX = -21.0;
 //    rotationY = -57.0;
 //    rotationZ = -0.0;
@@ -194,7 +195,9 @@ void openglwindow::draw()
 
     glPointSize(5.0);
     glBegin(GL_POINTS);
-    glColor3f(0,1.0,0);
+//    glColor3f(0,1.0,0);
+
+    glColor3f(0.4,0.7,0.4);
 
     for(int i=0; i<showDetectionPoints_list.size(); i=i+2)
     {
@@ -212,7 +215,7 @@ void openglwindow::draw()
     if(true == isShowPolygon_flag)
     {
        glBegin(GL_LINE_LOOP);
-       glColor3f(0,1.0,0);
+       glColor3f(0.4,0.7,0.4);
        for(int i=0; i<showDetectionPoints_list.size(); i+=2)
        {
            QString detecPoint_x_str = showDetectionPoints_list[i];
@@ -223,6 +226,20 @@ void openglwindow::draw()
        }
        glEnd();
 
+    }
+
+
+
+    /**************draw the single-Select point*****************************/
+    if(true == isShowDiff_flag)
+    {
+        glPointSize(10.0);
+        glBegin(GL_POINTS);
+        glColor3f(0.1,1.0,0.1);
+
+        glVertex3f(singleSelPoint_x,singleSelPoint_y,floor_z);
+
+        glEnd();
     }
 
 

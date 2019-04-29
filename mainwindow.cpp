@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->widget,SIGNAL(sliderRangechange_signal(float,float,float,float)),this,SLOT(sliderRangechange_slot(float,float,float,float)));
     connect(ui->widget,SIGNAL(initSliderPos_signal(float,float)),this,SLOT(initSliderPos_slot(float,float)));
     connect(&tcpClient,SIGNAL(readyRead()),this,SLOT(readMessage()));
-    connect(&addModel,SIGNAL(addPlane_signal(QString,float,float,float,float,float)),this,SLOT(addPlaneModel_slot(QString,float,float,float,float,float)));
+    connect(&addModel,SIGNAL(addPlane_signal(QStringList)),this,SLOT(addPlaneModel_slot(QStringList)));
     connect(&addDetetion_diag,SIGNAL(addDetectionPlane_signal(QString)),
             this,SLOT(addDetetion_slot(QString)));
     connect(&addModel,SIGNAL(cancel_signal()),this,SLOT(recvStateModel_slot()));
@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&click_timer,SIGNAL(timeout()),this,SLOT(click_timeSlot()));
 
     connect(&heartBeat_timer,SIGNAL(timeout()),this,SLOT(heartBeat_slot()));
-    heartBeat_timer.start(5000);
+//    heartBeat_timer.start(5000);
 
 
     QRegExpValidator *validator = new QRegExpValidator(QRegExp("^[0-9 | .]*$"), this);
@@ -90,21 +90,84 @@ MainWindow::MainWindow(QWidget *parent) :
 
     for(int i=0; i<128; i++)
     {
+//        planeModel_Item[i].setTextAlignment(Qt::AlignCenter);
+//        wingLength_Item[i].setTextAlignment(Qt::AlignCenter);
+//        engineInner_Item[i].setTextAlignment(Qt::AlignCenter);
+//        engineOuter_Item[i].setTextAlignment(Qt::AlignCenter);
+//        planeLength_Item[i].setTextAlignment(Qt::AlignCenter);
+//        noseHeight_Item[i].setTextAlignment(Qt::AlignCenter);
+        /******************************************************/
         planeModel_Item[i].setTextAlignment(Qt::AlignCenter);
-        wingLength_Item[i].setTextAlignment(Qt::AlignCenter);
+        wingLength1_Item[i].setTextAlignment(Qt::AlignCenter);
+        wingLength2_Item[i].setTextAlignment(Qt::AlignCenter);
+        wingLengthAdjust_Item[i].setTextAlignment(Qt::AlignCenter);
+        wingLengthPosOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+        wingLengthNegOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+
         engineInner_Item[i].setTextAlignment(Qt::AlignCenter);
+        engineInnerAdjust_Item[i].setTextAlignment(Qt::AlignCenter);
+        engineInnerPosOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+        engineInnerNegOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+
         engineOuter_Item[i].setTextAlignment(Qt::AlignCenter);
+        engineOuterAdjust_Item[i].setTextAlignment(Qt::AlignCenter);
+        engineOuterPosOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+        engineOuterNegOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+
         planeLength_Item[i].setTextAlignment(Qt::AlignCenter);
+        planeLengthAdjust_Item[i].setTextAlignment(Qt::AlignCenter);
+        planeLengthPosOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+        planeLengthNegOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+
+        planeHeight_Item[i].setTextAlignment(Qt::AlignCenter);
+        planeHeightPosOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+        planeHeightNegOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+
+        planeWidth_Item[i].setTextAlignment(Qt::AlignCenter);
+        planeWidthPosOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+        planeWidthNegOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+
         noseHeight_Item[i].setTextAlignment(Qt::AlignCenter);
+        noseHeightPosOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+        noseHeightNegOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+
+        noseDoor_Item[i].setTextAlignment(Qt::AlignCenter);
+        noseDoorPosOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+        noseDoorNegOffset_Item[i].setTextAlignment(Qt::AlignCenter);
+        /******************************************************/
 
         planeModel_Item[i].setFlags(Qt::NoItemFlags);
 
         ui->tableWidget->setItem(i,0,&planeModel_Item[i]);
-        ui->tableWidget->setItem(i,1,&wingLength_Item[i]);
-        ui->tableWidget->setItem(i,2,&engineInner_Item[i]);
-        ui->tableWidget->setItem(i,3,&engineOuter_Item[i]);
-        ui->tableWidget->setItem(i,4,&planeLength_Item[i]);
-        ui->tableWidget->setItem(i,5,&noseHeight_Item[i]);
+        ui->tableWidget->setItem(i,1,&wingLength1_Item[i]);
+        ui->tableWidget->setItem(i,2,&wingLength2_Item[i]);
+        ui->tableWidget->setItem(i,3,&wingLengthAdjust_Item[i]);
+        ui->tableWidget->setItem(i,4,&wingLengthPosOffset_Item[i]);
+        ui->tableWidget->setItem(i,5,&wingLengthNegOffset_Item[i]);
+        ui->tableWidget->setItem(i,6,&engineInner_Item[i]);
+        ui->tableWidget->setItem(i,7,&engineInnerAdjust_Item[i]);
+        ui->tableWidget->setItem(i,8,&engineInnerPosOffset_Item[i]);
+        ui->tableWidget->setItem(i,9,&engineInnerNegOffset_Item[i]);
+        ui->tableWidget->setItem(i,10,&engineOuter_Item[i]);
+        ui->tableWidget->setItem(i,11,&engineOuterAdjust_Item[i]);
+        ui->tableWidget->setItem(i,12,&engineOuterPosOffset_Item[i]);
+        ui->tableWidget->setItem(i,13,&engineOuterNegOffset_Item[i]);
+        ui->tableWidget->setItem(i,14,&planeLength_Item[i]);
+        ui->tableWidget->setItem(i,15,&planeLengthAdjust_Item[i]);
+        ui->tableWidget->setItem(i,16,&planeLengthPosOffset_Item[i]);
+        ui->tableWidget->setItem(i,17,&planeLengthNegOffset_Item[i]);
+        ui->tableWidget->setItem(i,18,&planeHeight_Item[i]);
+        ui->tableWidget->setItem(i,19,&planeHeightPosOffset_Item[i]);
+        ui->tableWidget->setItem(i,20,&planeHeightNegOffset_Item[i]);
+        ui->tableWidget->setItem(i,21,&planeWidth_Item[i]);
+        ui->tableWidget->setItem(i,22,&planeWidthPosOffset_Item[i]);
+        ui->tableWidget->setItem(i,23,&planeWidthNegOffset_Item[i]);
+        ui->tableWidget->setItem(i,24,&noseHeight_Item[i]);
+        ui->tableWidget->setItem(i,25,&noseHeightPosOffset_Item[i]);
+        ui->tableWidget->setItem(i,26,&noseHeightNegOffset_Item[i]);
+        ui->tableWidget->setItem(i,27,&noseDoor_Item[i]);
+        ui->tableWidget->setItem(i,28,&noseDoorPosOffset_Item[i]);
+        ui->tableWidget->setItem(i,29,&noseDoorNegOffset_Item[i]);
         ui->tableWidget->hideRow(i);
 
 
@@ -265,7 +328,7 @@ void MainWindow::readMessage()
                     QJsonValue val_flag = object.value("@table");                                    // 获取指定 key 对应的 value
                     int flag = val_flag.toInt();
                     qDebug() << "@table " << flag;
-                    if(5 == flag)              //机型基本参数返回表
+                    if(5 == flag)              //query机型基本参数返回表
                     {
                       QJsonValue value_msg = object.value("msg");
                       if(value_msg.isArray())
@@ -285,43 +348,150 @@ void MainWindow::readMessage()
                                   QJsonValue val_cftp = airModelObject.value("CFTP");             // 获取指定 key 对应的 value
                                   QString str_CFTP = val_cftp.toString();
                                   planeModel_Item[i].setText(str_CFTP);
-
-
                                   AllPlaneModel_list.append(str_CFTP);                            //存储所有的机型
                               }
-                              if (airModelObject.contains("wing"))
+                              if (airModelObject.contains("wingLength1") && airModelObject.contains("wingLength2")
+                                      && airModelObject.contains("wingLengthAdjust") && airModelObject.contains("wingLengthPosOffset") && airModelObject.contains("wingLengthNegOffset"))
                               {                                                                                      // 包含指定的 key
-                                  QJsonValue val_wing = airModelObject.value("wing");                                // 获取指定 key 对应的 value
-                                  double wing_ = val_wing.toDouble();
-                                  wingLength_Item[i].setText(QString::number(wing_));
+                                  QJsonValue val_wing1 = airModelObject.value("wingLength1");                                // 获取指定 key 对应的 value
+                                  double wing1_ = val_wing1.toDouble();
+                                  wingLength1_Item[i].setText(QString::number(wing1_));
+
+                                  QJsonValue val_wing2 = airModelObject.value("wingLength2");                                // 获取指定 key 对应的 value
+                                  double wing2_ = val_wing2.toDouble();
+                                  wingLength2_Item[i].setText(QString::number(wing2_));
+
+                                  QJsonValue val_wingLenAdjust = airModelObject.value("wingLengthAdjust");                                // 获取指定 key 对应的 value
+                                  double wingLenAdjust_ = val_wingLenAdjust.toDouble();
+                                  wingLengthAdjust_Item[i].setText(QString::number(wingLenAdjust_));
+
+                                  QJsonValue val_wingLenPosOffset = airModelObject.value("wingLengthPosOffset");                                // 获取指定 key 对应的 value
+                                  double wingLenPosOffset_ = val_wingLenPosOffset.toDouble();
+                                  wingLengthPosOffset_Item[i].setText(QString::number(wingLenPosOffset_));
+
+                                  QJsonValue val_wingLengthNegOffset= airModelObject.value("wingLengthNegOffset");                                // 获取指定 key 对应的 value
+                                  double wingLengthNegOffset_ = val_wingLengthNegOffset.toDouble();
+                                  wingLengthNegOffset_Item[i].setText(QString::number(wingLengthNegOffset_));
+
                               }
-                              if (airModelObject.contains("engineInner"))
+                              if (airModelObject.contains("engineInner") && airModelObject.contains("engineInnerAdjust") &&
+                                      airModelObject.contains("engineInnerPosOffset") && airModelObject.contains("engineInnerNegOffset"))
                               {                                                                                      // 包含指定的 key
                                   QJsonValue val_engineInner = airModelObject.value("engineInner");                  // 获取指定 key 对应的 value
                                   double engineInner_ = val_engineInner.toDouble();
                                   engineInner_Item[i].setText(QString::number(engineInner_));
 
+                                  QJsonValue val_engineInnerAdjust = airModelObject.value("engineInnerAdjust");                  // 获取指定 key 对应的 value
+                                  double engineInnerAdjust_ = val_engineInnerAdjust.toDouble();
+                                  engineInnerAdjust_Item[i].setText(QString::number(engineInnerAdjust_));
+
+                                  QJsonValue val_engineInnerPosOffset= airModelObject.value("engineInnerPosOffset");                  // 获取指定 key 对应的 value
+                                  double engineInnerPosOffset_ = val_engineInnerPosOffset.toDouble();
+                                  engineInnerPosOffset_Item[i].setText(QString::number(engineInnerPosOffset_));
+
+                                  QJsonValue val_engineInnerNegOffset = airModelObject.value("engineInnerNegOffset");                  // 获取指定 key 对应的 value
+                                  double engineInnerNegOffset_ = val_engineInnerNegOffset.toDouble();
+                                  engineInnerNegOffset_Item[i].setText(QString::number(engineInnerNegOffset_));
                               }
-                              if (airModelObject.contains("engineOuter"))
+                              if (airModelObject.contains("engineOuter") && airModelObject.contains("engineOuterAdjust") &&
+                                      airModelObject.contains("engineOuterPosOffset")&&airModelObject.contains("engineOuterNegOffset"))
                               {                                                                                      // 包含指定的 key
-                                  QJsonValue val_engineOuter = airModelObject.value("engineOuter");                 // 获取指定 key 对应的 value
+                                  QJsonValue val_engineOuter = airModelObject.value("engineOuter");                  // 获取指定 key 对应的 value
                                   double engineOuter_ = val_engineOuter.toDouble();
                                   engineOuter_Item[i].setText(QString::number(engineOuter_));
 
-                              }
-                              if (airModelObject.contains("length"))
-                              {                                                                                      // 包含指定的 key
-                                  QJsonValue val_cftp = airModelObject.value("length");                              // 获取指定 key 对应的 value
-                                  double length_ = val_cftp.toDouble();
-                                  planeLength_Item[i].setText(QString::number(length_));
+                                  QJsonValue val_engineOuterAdjust= airModelObject.value("engineOuterAdjust");                  // 获取指定 key 对应的 value
+                                  double engineOuterAdjust_ = val_engineOuterAdjust.toDouble();
+                                  engineOuterAdjust_Item[i].setText(QString::number(engineOuterAdjust_));
+
+                                  QJsonValue val_engineOuterPosOffset= airModelObject.value("engineOuterPosOffset");                  // 获取指定 key 对应的 value
+                                  double engineOuterPosOffset_ = val_engineOuterPosOffset.toDouble();
+                                  engineOuterPosOffset_Item[i].setText(QString::number(engineOuterPosOffset_));
+
+                                  QJsonValue val_engineOuterNegOffset = airModelObject.value("engineOuterNegOffset");                  // 获取指定 key 对应的 value
+                                  double engineOuterNegOffset_ = val_engineOuterNegOffset.toDouble();
+                                  engineOuterNegOffset_Item[i].setText(QString::number(engineOuterNegOffset_));
 
                               }
-                              if (airModelObject.contains("noseheight"))
+                              if (airModelObject.contains("planeLength")&&airModelObject.contains("planeLengthAdjust")&&
+                                      airModelObject.contains("planeLengthPosOffet")&&airModelObject.contains("planeLengthNegOffset"))
                               {                                                                                      // 包含指定的 key
-                                  QJsonValue val_cftp = airModelObject.value("noseheight");                         // 获取指定 key 对应的 value
-                                  double noseHeight_ = val_cftp.toDouble();
+                                  QJsonValue val_planeLength = airModelObject.value("planeLength");                  // 获取指定 key 对应的 value
+                                  double planeLength_ = val_planeLength.toDouble();
+                                  planeLength_Item[i].setText(QString::number(planeLength_));
+
+                                  QJsonValue val_planeLengthAdjust= airModelObject.value("planeLengthAdjust");                  // 获取指定 key 对应的 value
+                                  double planeLengthAdjust_ = val_planeLengthAdjust.toDouble();
+                                  planeLengthAdjust_Item[i].setText(QString::number(planeLengthAdjust_));
+
+                                  QJsonValue val_planeLengthPosOffet= airModelObject.value("planeLengthPosOffet");                  // 获取指定 key 对应的 value
+                                  double planeLengthPosOffet_ = val_planeLengthPosOffet.toDouble();
+                                  planeLengthPosOffset_Item[i].setText(QString::number(planeLengthPosOffet_));
+
+                                  QJsonValue val_planeLengthNegOffset = airModelObject.value("planeLengthNegOffset");                  // 获取指定 key 对应的 value
+                                  double planeLengthNegOffset_ = val_planeLengthNegOffset.toDouble();
+                                  planeLengthNegOffset_Item[i].setText(QString::number(planeLengthNegOffset_));
+
+                              }
+                              if (airModelObject.contains("planeHeight") && airModelObject.contains("planeHeightPosOffset")&&airModelObject.contains("planeHeightNegOffset"))
+                              {                                                                                      // 包含指定的 key
+                                  QJsonValue val_planeHeight = airModelObject.value("planeHeight");                  // 获取指定 key 对应的 value
+                                  double planeHeight_ = val_planeHeight.toDouble();
+                                  planeHeight_Item[i].setText(QString::number(planeHeight_));
+
+                                  QJsonValue val_planeHeightPosOffset= airModelObject.value("planeHeightPosOffset");                  // 获取指定 key 对应的 value
+                                  double planeHeightPosOffset_ = val_planeHeightPosOffset.toDouble();
+                                  planeHeightPosOffset_Item[i].setText(QString::number(planeHeightPosOffset_));
+
+                                  QJsonValue val_planeHeightNegOffset= airModelObject.value("planeHeightNegOffset");                  // 获取指定 key 对应的 value
+                                  double planeHeightNegOffset_ = val_planeHeightNegOffset.toDouble();
+                                  planeHeightNegOffset_Item[i].setText(QString::number(planeHeightNegOffset_));
+
+                              }
+
+                              if (airModelObject.contains("planeWidth") && airModelObject.contains("planeWidthPosOffset")&&airModelObject.contains("planeWidthNegOffset"))
+                              {                                                                                      // 包含指定的 key
+                                  QJsonValue val_planeWidth = airModelObject.value("planeWidth");                  // 获取指定 key 对应的 value
+                                  double planeWidth_ = val_planeWidth.toDouble();
+                                  planeWidth_Item[i].setText(QString::number(planeWidth_));
+
+                                  QJsonValue val_planeWidthPosOffset= airModelObject.value("planeWidthPosOffset");                  // 获取指定 key 对应的 value
+                                  double planeWidthPosOffset_ = val_planeWidthPosOffset.toDouble();
+                                  planeWidthPosOffset_Item[i].setText(QString::number(planeWidthPosOffset_));
+
+                                  QJsonValue val_planeWidthNegOffset= airModelObject.value("planeWidthNegOffset");                  // 获取指定 key 对应的 value
+                                  double planeWidthNegOffset_ = val_planeWidthNegOffset.toDouble();
+                                  planeWidthNegOffset_Item[i].setText(QString::number(planeWidthNegOffset_));
+                              }
+
+                              if (airModelObject.contains("noseHeight") && airModelObject.contains("noseHeightPosOffset")&&airModelObject.contains("noseHeightNegOffset"))
+                              {                                                                                      // 包含指定的 key
+                                  QJsonValue val_noseHeight = airModelObject.value("noseHeight");                  // 获取指定 key 对应的 value
+                                  double noseHeight_ = val_noseHeight.toDouble();
                                   noseHeight_Item[i].setText(QString::number(noseHeight_));
 
+                                  QJsonValue val_noseHeightPosOffset= airModelObject.value("noseHeightPosOffset");                  // 获取指定 key 对应的 value
+                                  double noseHeightPosOffset_ = val_noseHeightPosOffset.toDouble();
+                                  noseHeightPosOffset_Item[i].setText(QString::number(noseHeightPosOffset_));
+
+                                  QJsonValue val_noseHeightNegOffset= airModelObject.value("noseHeightNegOffset");                  // 获取指定 key 对应的 value
+                                  double noseHeightNegOffset_ = val_noseHeightNegOffset.toDouble();
+                                  noseHeightNegOffset_Item[i].setText(QString::number(noseHeightNegOffset_));
+                              }
+
+                              if (airModelObject.contains("noseDoor") && airModelObject.contains("noseDoorPosOffset")&&airModelObject.contains("noseDoorNegOffset"))
+                              {                                                                                      // 包含指定的 key
+                                  QJsonValue val_noseDoor= airModelObject.value("noseDoor");                  // 获取指定 key 对应的 value
+                                  double noseDoor_ = val_noseDoor.toDouble();
+                                  noseDoor_Item[i].setText(QString::number(noseDoor_));
+
+                                  QJsonValue val_noseDoorPosOffset= airModelObject.value("noseDoorPosOffset");                  // 获取指定 key 对应的 value
+                                  double noseDoorPosOffset_ = val_noseDoorPosOffset.toDouble();
+                                  noseDoorPosOffset_Item[i].setText(QString::number(noseDoorPosOffset_));
+
+                                  QJsonValue val_noseDoorNegOffset= airModelObject.value("noseDoorNegOffset");                  // 获取指定 key 对应的 value
+                                  double noseDoorNegOffset_ = val_noseDoorNegOffset.toDouble();
+                                  noseDoorNegOffset_Item[i].setText(QString::number(noseDoorNegOffset_));
                               }
 
                           }
@@ -507,7 +677,16 @@ void MainWindow::readMessage()
                         QMessageBox::information(NULL,NULL,QString::fromLocal8Bit("操作成功！"),NULL);
                     }else if(20 == flag)   //rece the msg of detection area
                     {
+                        if(!object.contains("coordinates"))
+                        {
+                            QMessageBox::information(NULL,QString::fromLocal8Bit("警告"),QString::fromLocal8Bit("接受的字段有误，珂珂检查之"));
+                            break;
+                        }
+
+
                         QJsonValue value_msg = object.value("coordinates");
+
+
                         if(value_msg.isArray())
                         {
 
@@ -752,9 +931,39 @@ void MainWindow::on_add_pushButton_clicked()
 }
 
 //发送添加机型命令
-void MainWindow::addPlaneModel_slot(QString model, float wingLen, float eng_Inner, float eng_Outer, float plane_Len, float nose_Hei)
+void MainWindow::addPlaneModel_slot(QStringList paraList)
 {
-    qDebug()<<QString::fromLocal8Bit("主程序接收到数据")<< model<<"  "<<nose_Hei;
+    qDebug()<<QString::fromLocal8Bit("主程序接收到数据")<< paraList<<"  ";
+    QString model = paraList[0];
+    QString wingLength1 = paraList[1];
+    QString wingLength2	= paraList[2];
+    QString wingLengthAdjust= paraList[3];
+    QString wingLengthPosOffset= paraList[4];
+    QString wingLengthNegOffset= paraList[5];
+    QString engineInner= paraList[6];
+    QString engineInnerAdjust = paraList[7];
+    QString engineInnerPosOffset= paraList[8];
+    QString engineInnerNegOffset = paraList[9];
+    QString engineOuter = paraList[10];
+    QString engineOuterAdjust = paraList[11];
+    QString engineOuterPosOffset = paraList[12];
+    QString engineOuterNegOffset = paraList[13];
+    QString planeLength = paraList[14];
+    QString planeLengthAdjust = paraList[15];
+    QString planeLengthPosOffet = paraList[16];
+    QString planeLengthNegOffset = paraList[17];
+    QString planeHeight = paraList[18];
+    QString planeHeightPosOffset = paraList[19];
+    QString planeHeightNegOffset = paraList[20];
+    QString planeWidth = paraList[21];
+    QString planeWidthPosOffset = paraList[22];
+    QString planeWidthNegOffset = paraList[23];
+    QString noseHeight = paraList[24];
+    QString noseHeightPosOffset = paraList[25];
+    QString noseHeightNegOffset = paraList[26];
+    QString noseDoor = paraList[27];
+    QString noseDoorPosOffset = paraList[28];
+    QString noseDoorNegOffset = paraList[29];
 
     //判断机型是否已经存在
     int len  = AllPlaneModel_list.length();
@@ -771,11 +980,36 @@ void MainWindow::addPlaneModel_slot(QString model, float wingLen, float eng_Inne
     QJsonObject add_json;
     QJsonObject msg_json;
     msg_json.insert("CFTP",model);
-    msg_json.insert("wing",QString::number(wingLen));
-    msg_json.insert("engineInner",QString::number(eng_Inner));
-    msg_json.insert("engineOuter",QString::number(eng_Outer));
-    msg_json.insert("length",QString::number(plane_Len));
-    msg_json.insert("noseheight",QString::number(nose_Hei));
+    msg_json.insert("wingLength1",wingLength1);
+    msg_json.insert("wingLength2",wingLength2);
+    msg_json.insert("wingLengthAdjust",wingLengthAdjust);
+    msg_json.insert("wingLengthPosOffset",wingLengthPosOffset);
+    msg_json.insert("wingLengthNegOffset",wingLengthNegOffset);
+    msg_json.insert("engineInner",engineInner);
+    msg_json.insert("engineInnerAdjust",engineInnerAdjust);
+    msg_json.insert("engineInnerPosOffset",engineInnerPosOffset);
+    msg_json.insert("engineInnerNegOffset",engineInnerNegOffset);
+    msg_json.insert("engineOuter",engineOuter);
+    msg_json.insert("engineOuterAdjust",engineOuterAdjust);
+    msg_json.insert("engineOuterPosOffset",engineOuterPosOffset);
+    msg_json.insert("engineOuterNegOffset",engineOuterNegOffset);
+    msg_json.insert("planeLength",planeLength);
+    msg_json.insert("planeLengthAdjust",planeLengthAdjust);
+    msg_json.insert("planeLengthPosOffet",planeLengthPosOffet);
+    msg_json.insert("planeLengthNegOffset",planeLengthNegOffset);
+    msg_json.insert("planeHeight",planeHeight);
+    msg_json.insert("planeHeightPosOffset",planeHeightPosOffset);
+    msg_json.insert("planeHeightNegOffset",planeHeightNegOffset);
+    msg_json.insert("planeWidth",planeWidth);
+    msg_json.insert("planeWidthPosOffset",planeWidthPosOffset);
+    msg_json.insert("planeWidthNegOffset",planeWidthNegOffset);
+    msg_json.insert("noseHeight",noseHeight);
+    msg_json.insert("noseHeightPosOffset",noseHeightPosOffset);
+    msg_json.insert("noseHeightNegOffset",noseHeightNegOffset);
+    msg_json.insert("noseDoor",noseDoor);
+    msg_json.insert("noseDoorPosOffset",noseDoorPosOffset);
+    msg_json.insert("noseDoorNegOffset",noseDoorNegOffset);
+
 
     add_json.insert("@table",6);
     add_json.insert("@src","qt");
@@ -786,18 +1020,43 @@ void MainWindow::addPlaneModel_slot(QString model, float wingLen, float eng_Inne
     QByteArray byteArray = document.toJson(QJsonDocument::Compact);
 
     sendMsg(byteArray);
-//    tcpClient.write(byteArray);
+
 
 
 
     //更新界面(增加一行)
     ui->tableWidget->showRow(len);
     planeModel_Item[len].setText(model);
-    wingLength_Item[len].setText(QString::number(wingLen));
-    engineInner_Item[len].setText(QString::number(eng_Inner));
-    engineOuter_Item[len].setText(QString::number(eng_Outer));
-    planeLength_Item[len].setText(QString::number(plane_Len));
-    noseHeight_Item[len].setText(QString::number(nose_Hei));
+    wingLength1_Item[len].setText(wingLength1);
+    wingLength2_Item[len].setText(wingLength2);
+    wingLengthAdjust_Item[len].setText(wingLengthAdjust);
+    wingLengthPosOffset_Item[len].setText(wingLengthPosOffset);
+    wingLengthNegOffset_Item[len].setText(wingLengthNegOffset);
+    engineInner_Item[len].setText(engineInner);
+    engineInnerAdjust_Item[len].setText(engineInnerAdjust);
+    engineInnerPosOffset_Item[len].setText(engineInnerPosOffset);
+    engineInnerNegOffset_Item[len].setText(engineInnerNegOffset);
+    engineOuter_Item[len].setText(engineOuter);
+    engineOuterAdjust_Item[len].setText(engineOuterAdjust);
+    engineOuterPosOffset_Item[len].setText(engineOuterPosOffset);
+    engineOuterNegOffset_Item[len].setText(engineOuterNegOffset);
+    planeLength_Item[len].setText(planeLength);
+    planeLengthAdjust_Item[len].setText(planeLengthAdjust);
+    planeLengthPosOffset_Item[len].setText(planeLengthPosOffet);
+    planeLengthNegOffset_Item[len].setText(planeLengthNegOffset);
+    planeHeight_Item[len].setText(planeHeight);
+    planeHeightPosOffset_Item[len].setText(planeHeightPosOffset);
+    planeHeightNegOffset_Item[len].setText(planeHeightNegOffset);
+    planeWidth_Item[len].setText(planeWidth);
+    planeWidthPosOffset_Item[len].setText(planeWidthPosOffset);
+    planeWidthNegOffset_Item[len].setText(planeWidthNegOffset);
+    noseHeight_Item[len].setText(noseHeight);
+    noseHeightPosOffset_Item[len].setText(noseHeightPosOffset);
+    noseHeightNegOffset_Item[len].setText(noseHeightNegOffset);
+
+    noseDoor_Item[len].setText(noseDoor);
+    noseDoorPosOffset_Item[len].setText(noseDoorPosOffset);
+    noseDoorNegOffset_Item[len].setText(noseDoorNegOffset);
 
     AllPlaneModel_list.append(model);    //机型存储链表中也要增加一行
 
@@ -819,15 +1078,39 @@ void MainWindow::on_alert_pushButton_clicked()
 
     QJsonObject alert_json;
     QJsonArray msgArray_json;
-    for(int i=0; i<airPlaneModel_alterlist.length(); i+=6)
+    for(int i=0; i<airPlaneModel_alterlist.length(); i+=30)
     {
         QJsonObject single_json;
         single_json.insert("CFTP",airPlaneModel_alterlist[i]);
-        single_json.insert("wing",airPlaneModel_alterlist[i+1]);
-        single_json.insert("engineInner",airPlaneModel_alterlist[i+2]);
-        single_json.insert("engineOuter",airPlaneModel_alterlist[i+3]);
-        single_json.insert("length",airPlaneModel_alterlist[i+4]);
-        single_json.insert("noseheight",airPlaneModel_alterlist[i+5]);
+        single_json.insert("wingLength1",airPlaneModel_alterlist[i+1]);
+        single_json.insert("wingLength2",airPlaneModel_alterlist[i+2]);
+        single_json.insert("wingLengthAdjust",airPlaneModel_alterlist[i+3]);
+        single_json.insert("wingLengthPosOffset",airPlaneModel_alterlist[i+4]);
+        single_json.insert("wingLengthNegOffset",airPlaneModel_alterlist[i+5]);
+        single_json.insert("engineInner",airPlaneModel_alterlist[i+6]);
+        single_json.insert("engineInnerAdjust",airPlaneModel_alterlist[i+7]);
+        single_json.insert("engineInnerPosOffset",airPlaneModel_alterlist[i+8]);
+        single_json.insert("engineInnerNegOffset",airPlaneModel_alterlist[i+9]);
+        single_json.insert("engineOuter",airPlaneModel_alterlist[i+10]);
+        single_json.insert("engineOuterAdjust",airPlaneModel_alterlist[i+11]);
+        single_json.insert("engineOuterPosOffset",airPlaneModel_alterlist[i+12]);
+        single_json.insert("engineOuterNegOffset",airPlaneModel_alterlist[i+13]);
+        single_json.insert("planeLength",airPlaneModel_alterlist[i+14]);
+        single_json.insert("planeLengthAdjust",airPlaneModel_alterlist[i+15]);
+        single_json.insert("planeLengthPosOffet",airPlaneModel_alterlist[i+16]);
+        single_json.insert("planeLengthNegOffset",airPlaneModel_alterlist[i+17]);
+        single_json.insert("planeHeight",airPlaneModel_alterlist[i+18]);
+        single_json.insert("planeHeightPosOffset",airPlaneModel_alterlist[i+19]);
+        single_json.insert("planeHeightNegOffset",airPlaneModel_alterlist[i+20]);
+        single_json.insert("planeWidth",airPlaneModel_alterlist[i+21]);
+        single_json.insert("planeWidthPosOffset",airPlaneModel_alterlist[i+22]);
+        single_json.insert("planeWidthNegOffset",airPlaneModel_alterlist[i+23]);
+        single_json.insert("noseHeight",airPlaneModel_alterlist[i+24]);
+        single_json.insert("noseHeightPosOffset",airPlaneModel_alterlist[i+25]);
+        single_json.insert("noseHeightNegOffset",airPlaneModel_alterlist[i+26]);
+        single_json.insert("noseDoor",airPlaneModel_alterlist[i+27]);
+        single_json.insert("noseDoorPosOffset",airPlaneModel_alterlist[i+28]);
+        single_json.insert("noseDoorNegOffset",airPlaneModel_alterlist[i+29]);
         msgArray_json.append(single_json);
     }
 
@@ -869,12 +1152,38 @@ void MainWindow::on_tableWidget_cellChanged(int row, int column)
     if(airPlaneModel_alterlist.empty())
     {
 
-        airPlaneModel_alterlist.append(planeModel_Item[row].text());
-        airPlaneModel_alterlist.append(wingLength_Item[row].text());
-        airPlaneModel_alterlist.append(engineInner_Item[row].text());
+        airPlaneModel_alterlist.append(planeModel_Item[row].text());       //4-29
+        airPlaneModel_alterlist.append(wingLength1_Item[row].text());
+        airPlaneModel_alterlist.append(wingLength2_Item[row].text());
+        airPlaneModel_alterlist.append(wingLengthAdjust_Item[row].text());
+        airPlaneModel_alterlist.append(wingLengthPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(wingLengthNegOffset_Item[row].text());
+        airPlaneModel_alterlist.append(engineInner_Item[row].text());       //4-29
+        airPlaneModel_alterlist.append(engineInnerAdjust_Item[row].text());
+        airPlaneModel_alterlist.append(engineInnerPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(engineInnerNegOffset_Item[row].text());
         airPlaneModel_alterlist.append(engineOuter_Item[row].text());
+        airPlaneModel_alterlist.append(engineOuterAdjust_Item[row].text());
+        airPlaneModel_alterlist.append(engineOuterPosOffset_Item[row].text());       //4-29
+        airPlaneModel_alterlist.append(engineOuterNegOffset_Item[row].text());
         airPlaneModel_alterlist.append(planeLength_Item[row].text());
-        airPlaneModel_alterlist.append(noseHeight_Item[row].text());
+        airPlaneModel_alterlist.append(planeLengthAdjust_Item[row].text());
+        airPlaneModel_alterlist.append(planeLengthPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(planeLengthNegOffset_Item[row].text());
+        airPlaneModel_alterlist.append(planeHeight_Item[row].text());       //4-29
+        airPlaneModel_alterlist.append(planeHeightPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(planeHeightNegOffset_Item[row].text());
+        airPlaneModel_alterlist.append(planeWidth_Item[row].text());
+        airPlaneModel_alterlist.append(planeWidthPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(planeWidthNegOffset_Item[row].text());
+        airPlaneModel_alterlist.append(noseHeight_Item[row].text());       //4-29
+        airPlaneModel_alterlist.append(noseHeightPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(noseHeightNegOffset_Item[row].text());
+        airPlaneModel_alterlist.append(noseDoor_Item[row].text());
+        airPlaneModel_alterlist.append(noseDoorPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(noseDoorNegOffset_Item[row].text());
+
+
 
         qDebug()<<"the list is empty";
 //        on_alert_pushButton_clicked();
@@ -884,31 +1193,80 @@ void MainWindow::on_tableWidget_cellChanged(int row, int column)
     {
         QString planeModel = planeModel_Item[row].text();
 
-        for(int i=0; i<airPlaneModel_alterlist.length(); i+=6)
+        for(int i=0; i<airPlaneModel_alterlist.length(); i+=30)
         {
             if(planeModel == airPlaneModel_alterlist[i])
             {
                 //如果已经存在 更新已有的参数
-                airPlaneModel_alterlist[i+1] = wingLength_Item[row].text();
-                airPlaneModel_alterlist[i+2] = engineInner_Item[row].text();
-                airPlaneModel_alterlist[i+3] = engineOuter_Item[row].text();
-                airPlaneModel_alterlist[i+4] = planeLength_Item[row].text();
-                airPlaneModel_alterlist[i+5] = noseHeight_Item[row].text();
 
-                qDebug()<<"the list is update "<<wingLength_Item[row].text()<<engineInner_Item[row].text()<<engineOuter_Item[row].text();
+                   airPlaneModel_alterlist[i+1] = wingLength1_Item[row].text();
+                   airPlaneModel_alterlist[i+2] = wingLength2_Item[row].text();
+                   airPlaneModel_alterlist[i+3] = wingLengthAdjust_Item[row].text();
+                   airPlaneModel_alterlist[i+4] = wingLengthPosOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+5] = wingLengthNegOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+6] = engineInner_Item[row].text();
+                   airPlaneModel_alterlist[i+7] = engineInnerAdjust_Item[row].text();
+                   airPlaneModel_alterlist[i+8] = engineInnerPosOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+9]= engineInnerNegOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+10] = engineOuter_Item[row].text();
+                   airPlaneModel_alterlist[i+11] = engineOuterAdjust_Item[row].text();
+                   airPlaneModel_alterlist[i+12] = engineOuterPosOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+13] = engineOuterNegOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+14] = planeLength_Item[row].text();
+                   airPlaneModel_alterlist[i+15] = planeLengthAdjust_Item[row].text();
+                   airPlaneModel_alterlist[i+16] = planeLengthPosOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+17] = planeLengthNegOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+18] = planeHeight_Item[row].text();
+                   airPlaneModel_alterlist[i+19] = planeHeightPosOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+20] = planeHeightNegOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+21] = planeWidth_Item[row].text();
+                   airPlaneModel_alterlist[i+22] = planeWidthPosOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+23] = planeWidthNegOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+24] = noseHeight_Item[row].text();
+                   airPlaneModel_alterlist[i+25] = noseHeightPosOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+26] = noseHeightNegOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+27] = noseDoor_Item[row].text();
+                   airPlaneModel_alterlist[i+28] = noseDoorPosOffset_Item[row].text();
+                   airPlaneModel_alterlist[i+29] = noseDoorNegOffset_Item[row].text();
+
+
+                qDebug()<<"the list is update "<<wingLength1_Item[row].text()<<engineInner_Item[row].text()<<engineOuter_Item[row].text();
 //                on_alert_pushButton_clicked();
                 return;
             }
         }
 
         //添加机型的基本参数
-        airPlaneModel_alterlist.append(planeModel_Item[row].text());
-        airPlaneModel_alterlist.append(wingLength_Item[row].text());
-        airPlaneModel_alterlist.append(engineInner_Item[row].text());
+        airPlaneModel_alterlist.append(planeModel_Item[row].text());       //4-29
+        airPlaneModel_alterlist.append(wingLength1_Item[row].text());
+        airPlaneModel_alterlist.append(wingLength2_Item[row].text());
+        airPlaneModel_alterlist.append(wingLengthAdjust_Item[row].text());
+        airPlaneModel_alterlist.append(wingLengthPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(wingLengthNegOffset_Item[row].text());
+        airPlaneModel_alterlist.append(engineInner_Item[row].text());       //4-29
+        airPlaneModel_alterlist.append(engineInnerAdjust_Item[row].text());
+        airPlaneModel_alterlist.append(engineInnerPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(engineInnerNegOffset_Item[row].text());
         airPlaneModel_alterlist.append(engineOuter_Item[row].text());
+        airPlaneModel_alterlist.append(engineOuterAdjust_Item[row].text());
+        airPlaneModel_alterlist.append(engineOuterPosOffset_Item[row].text());       //4-29
+        airPlaneModel_alterlist.append(engineOuterNegOffset_Item[row].text());
         airPlaneModel_alterlist.append(planeLength_Item[row].text());
-        airPlaneModel_alterlist.append(noseHeight_Item[row].text());
-
+        airPlaneModel_alterlist.append(planeLengthAdjust_Item[row].text());
+        airPlaneModel_alterlist.append(planeLengthPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(planeLengthNegOffset_Item[row].text());
+        airPlaneModel_alterlist.append(planeHeight_Item[row].text());       //4-29
+        airPlaneModel_alterlist.append(planeHeightPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(planeHeightNegOffset_Item[row].text());
+        airPlaneModel_alterlist.append(planeWidth_Item[row].text());
+        airPlaneModel_alterlist.append(planeWidthPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(planeWidthNegOffset_Item[row].text());
+        airPlaneModel_alterlist.append(noseHeight_Item[row].text());       //4-29
+        airPlaneModel_alterlist.append(noseHeightPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(noseHeightNegOffset_Item[row].text());
+        airPlaneModel_alterlist.append(noseDoor_Item[row].text());
+        airPlaneModel_alterlist.append(noseDoorPosOffset_Item[row].text());
+        airPlaneModel_alterlist.append(noseDoorNegOffset_Item[row].text());
     }
 }
 
@@ -1226,6 +1584,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 
         ui->widget->showDetectionPoints_list.clear();
         ui->widget->isShowPolygon_flag = false;
+        ui->widget->isShowDiff_flag = false;
 
     }else if(1 == index)  //查询检测参数
     {
@@ -1245,6 +1604,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         }
         ui->widget->showDetectionPoints_list.clear();
         ui->widget->isShowPolygon_flag = false;
+        ui->widget->isShowDiff_flag = false;
 
 
     }else if(2 == index)  //查询行人检测参数
@@ -1265,6 +1625,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         }
         ui->widget->showDetectionPoints_list.clear();
         ui->widget->isShowPolygon_flag = false;
+        ui->widget->isShowDiff_flag = false;
 
     }else if(3 == index)
     {
@@ -1284,6 +1645,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         }
         ui->widget->showDetectionPoints_list.clear();
         ui->widget->isShowPolygon_flag = false;
+        ui->widget->isShowDiff_flag = false;
 
     }else if(4 == index)  //检测区域界面
     {
@@ -1306,6 +1668,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         }
         ui->widget->showDetectionPoints_list.clear();
         ui->widget->isShowPolygon_flag = false;
+        ui->widget->isShowDiff_flag = false;
     }
 }
 
@@ -1574,6 +1937,26 @@ void MainWindow::on_selDetePoint_pushButton_clicked()
 
 
 /*
+ * @brief:  select the point, and  show diff with color
+ * @date:  2019-4-26
+ * @author:zwt
+ */
+void MainWindow::on_DetePoint_tableWidget_cellClicked(int row, int column)
+{
+    QString str_x = DetectonPoints_List[row *2];
+    QString str_y = DetectonPoints_List[row *2 + 1];
+
+    ui->widget->singleSelPoint_x = str_x.toFloat();
+    ui->widget->singleSelPoint_y = str_y.toFloat();
+    ui->widget->isShowDiff_flag = true;
+
+
+    qDebug()<<" single select x="<<str_x<<"  ,y="<<str_y<<endl;
+}
+
+
+
+/*
  * @brief:  alter the detec point
  * @date:  2019-4-10
  * @author:zwt
@@ -1592,6 +1975,9 @@ void MainWindow::on_DetePoint_tableWidget_cellDoubleClicked(int row, int column)
         DetectonPoints_List.replace(row*2,QString::number(currentSlider_x));
         DetectonPoints_List.replace(row*2+1,QString::number(currentSlider_y));
         ui->widget->showDetectionPoints_list = DetectonPoints_List;
+
+        ui->widget->singleSelPoint_x = currentSlider_x;
+        ui->widget->singleSelPoint_y = currentSlider_y;
     }
     else
     {
@@ -1620,6 +2006,8 @@ void MainWindow::on_addDetePoint_pushButton_clicked()
         QMessageBox::information(NULL,QString::fromLocal8Bit("提示"),QString::fromLocal8Bit("不能为空！请先添加检测点！"));
         return ;
     }
+
+    qDebug()<<"DetectonPoints_List length = "<<DetectonPoints_List.length()<<endl;
 
     for(int i=0; i<DetectonPoints_List.length(); i += 2)
     {
@@ -1673,6 +2061,8 @@ void MainWindow::on_submitPara_pushButton_clicked()
     sendMsg(sendArray);
 
 }
+
+
 
 
 
